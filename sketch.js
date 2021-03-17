@@ -8,6 +8,8 @@ var box1, pig1;
 var backgroundImg,platform;
 var bird, slingShot;
 
+var BirdPosition = "onsling";
+
 function preload() {
     backgroundImg = loadImage("sprites/bg.png");
 }
@@ -39,7 +41,7 @@ function setup(){
     bird = new Bird(200,50);
 
     //log6 = new Log(230,180,80, PI/2);
-    slingshot = new SlingShot(bird.body,{x:200, y:50});
+    slingshot = new SlingShot(bird.body,{x:200, y:100});
 }
 
 function draw(){
@@ -64,14 +66,40 @@ function draw(){
     bird.display();
     platform.display();
     //log6.display();
-    slingshot.display();    
+    slingshot.display();   
+    
+    if(BirdPosition === "offsling"){
+
+    text("PRESS SPACE TO TAKE ANOTHER SHOT",100,50);
+
+  }
 }
 
 function mouseDragged(){
+    if(BirdPosition === "onsling"){
+
     Matter.Body.setPosition(bird.body, {x: mouseX , y: mouseY});
+
+    }
 }
 
 
 function mouseReleased(){
     slingshot.fly();
+    BirdPosition = "offsling";
+
+   
+}
+
+function keyPressed(){
+
+
+    if(keyCode === 32){
+
+        slingshot.attach(bird.body);
+        BirdPosition = "onsling";
+
+
+    }
+
 }
